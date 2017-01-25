@@ -1,0 +1,28 @@
+{
+  "name": "digestServer",
+  "version": "0.0.0",
+  "description": "AWS nodejs, połączona z travisem pobiera zlecenie z kolejki, przetwarza plik, aktualizuje dane w sampleDB, pobiera i wrzuca plik na S3",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Pawel Czubak",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.7.0",
+    "aws-sdk": "^2.0.0-rc13",
+    "jimp": "^0.2.27"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pawel33317/AWS-app-worker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pawel33317/AWS-app-worker/issues"
+  },
+  "homepage": "https://github.com/pawel33317/AWS-app-worker"
+}

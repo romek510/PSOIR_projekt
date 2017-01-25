@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">	
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>	
+		<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+					
+	</head>
+	<body>
+		<nav class="navbar">	
+		</nav>
+		<div class="container">
+		<section id="section1" class="panel panel-default">
+			<div class="panel-heading">
+			<div class="container">
+	    		<h3 class="panel-title">Lista Plików na <%=bucket%></h3>
+	    	</div>
+		  	</div>
+	  		<div class="panel-body">
+				<div class="container">
+						<% files.forEach(function(elem){ %>
+							<div>
+							<img src="http://localhost:8080/images/<%=elem.fileName%>"></img>
+							<div style="display:inline; padding-right:30px"><%=elem.Key%></div>
+							<input id="button1" type="button" onclick="testfun('<%=elem.Key%>', '<%=bucket%>');" text="modyfikuj" value="Modyfikuj"></input>
+							</div>
+							
+					
+						<%}); %> 
+						
+				</div>
+	  		</div>
+			<footer class="panel-footer">
+			</footer>
+		</section>
+		</div>
+
+		<script type="text/javascript">
+		console.log(<% files %>);
+		function testfun(key, bucket){
+		
+		
+			AWS.config.accessKeyId = "<%=authenticationData.accessKeyId%>";
+			AWS.config.secretAccessKey = "<%=authenticationData.secretAccessKey%>";
+			AWS.config.region = 'us-east-1';
+
+			// Load credentials and set the region from the JSON file
+			
+			var sqs=new AWS.SQS();
+			var sendparms={
+				//MessageBody: bucket+"###"+key,
+				MessageBody: "{\"bucket\":\""+bucket+"\",\"key\":\""+key+"\"} ",
+				QueueUrl: "<%=urlQueue%>",
+				MessageAttributes: {
+					key: {//dowolna nazwa klucza
+						DataType: 'String',
+						StringValue: key
+					},
+					bucket: {//dowolna nazwa klucza
+						DataType: 'String',
+						StringValue: bucket
+					}
+				}	
+			};
+			//wysłanie wiadomości do kolejki
+			sqs.sendMessage(sendparms, function(err,data2){
+				if(err) {
+					console.log(err,err.stack);
+				}
+				else {
+					console.log("Pomyślnie dodano do kolejki");
+					alert("Pomyślnie dodano do kolejki");
+					console.log("MessageId: "+data2.MessageId);
+				}
+			});
+		}
+		  
+		</script>
+	</body>
+</html>
