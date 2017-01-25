@@ -16,7 +16,7 @@ var linkKolejki = tablicaKolejki.QueueUrl
 var sqs=new AWS.SQS();
 var UPLOAD_TEMPLATE = "listOfFiles.ejs";
 var fs = require('fs');
-var AWS_CONFIG_FILE = "config.json";
+var AWS_CONFIG_FILE = "../config.json";
 
 
 
